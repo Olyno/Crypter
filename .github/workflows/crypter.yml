@@ -1,0 +1,38 @@
+name: svelte-render
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v1
+
+    - name: Restore cache
+      uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: ${{ runner.OS }}-yarn
+        restore-keys: |
+          ${{ runner.OS }}-yarn
+    
+    - name: Setup NodeJS
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    
+    - name: Install dependencies
+      run: yarn
+
+    - name: Build
+      run: yarn build
+
+    - name: Deploy to gh-pages
+      uses: Cecilapp/GitHub-Pages-deploy@master
+      env:
+        EMAIL: ${{ secrets.EMAIL }}
+        GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BUILD_DIR: public/
