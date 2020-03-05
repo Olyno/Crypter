@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../../App.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n\n\timport Navbar from './components/Navbar.svelte';\n\timport Footer from './components/Footer.svelte';\n\n\timport { crypter, decrypter } from './crypter';\n\n\tlet areas = ['', ''],\n\t\terror = undefined,\n\t\tencrypt = true;\n\n\tasync function doWork() {\n\t\tif (encrypt) {\n\t\t\tcrypter(areas[0])\n\t\t\t\t.then(v => {\n\t\t\t\t\tareas[1] = v;\n\t\t\t\t\terror = undefined;\n\t\t\t\t})\n\t\t\t\t.catch(err => error = err)\n\t\t} else {\n\t\t\tdecrypter(areas[1])\n\t\t\t\t.then(v => {\n\t\t\t\t\tareas[0] = v;\n\t\t\t\t\terror = undefined;\n\t\t\t\t})\n\t\t\t\t.catch(err => error = err)\n\t\t}\n\t}\n\n\tasync function switched() {\n\t\tencrypt = !encrypt;\n\t}\n\n</script>\n\n<Navbar />\n\n{#if error}\n\n\t<div class=\"section has-text-centered\">\n\t\t<article class=\"message is-danger\">\n\t\t\t<div class=\"message-header\">\n\t\t\t\t<p>Error</p>\n\t\t\t</div>\n\t\t\t<div class=\"message-body\">\n\t\t\t\t{error}\n\t\t\t</div>\n\t\t</article>\n\t</div>\n\n{/if}\n\n<div class=\"container has-text-centered section\">\n\t<div class=\"columns {encrypt ? '' : 'switch-columns'}\">\n\t\t<div class=\"column\">\n\t\t\t<label for=\"input\">Encrypted</label>\n\n\t\t\t<textarea \n\t\t\t\ton:keyup={doWork}\n\t\t\t\tbind:value={areas[0]}\n\t\t\t\tclass=\"textarea\" \n\t\t\t\tname=\"output\" \n\t\t\t\tcols=\"30\" \n\t\t\t\trows=\"10\"\n\t\t\t\treadonly={!encrypt}\n\t\t\t></textarea>\n\n\t\t</div>\n\t\t<div class=\"column is-2 vcentered\">\n\t\t\t<button class=\"button is-rounded is-button\" on:click={switched}>\n\t\t\t\t<span>Switch</span>\n\t\t\t\t<span><i class=\"fas fa-random\"></i></span>\t\t\t\t\n\t\t\t</button>\n\t\t</div>\n\t\t<div class=\"column\">\n\t\t\t<label for=\"output\">Decrypted</label>\n\n\t\t\t<textarea \n\t\t\t\ton:keyup={doWork}\n\t\t\t\tbind:value={areas[1]}\n\t\t\t\tclass=\"textarea\" \n\t\t\t\tname=\"output\" \n\t\t\t\tcols=\"30\" \n\t\t\t\trows=\"10\"\n\t\t\t\treadonly={encrypt}\n\t\t\t></textarea>\n\n\t\t</div>\n\t</div>\n</div>\n\n<Footer />\n\n<style>\n\t.vcentered {\n\t\talign-self: center !important;\n\t}\n\tlabel {\n\t\tfont-weight: bold;\n\t}\n\tspan {\n\t\tpadding: 5px;\n\t}\n</style>"
+  ],
+  "names": [],
+  "mappings": "AA8FC,UAAU,cAAC,CAAC,AACX,UAAU,CAAE,MAAM,CAAC,UAAU,AAC9B,CAAC,AACD,KAAK,cAAC,CAAC,AACN,WAAW,CAAE,IAAI,AAClB,CAAC,AACD,IAAI,cAAC,CAAC,AACL,OAAO,CAAE,GAAG,AACb,CAAC"
+}
